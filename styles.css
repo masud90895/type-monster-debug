@@ -207,5 +207,13 @@ button {
     gap: 10px;
     
   }
+  #display {
+    padding-left: 0rem;
+    overflow: scroll;
+  }
+  #question {
+    height: 150px;
+    padding: 5px;
+  }
   
 }
