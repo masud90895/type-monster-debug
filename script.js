@@ -41,7 +41,7 @@ const typeController = (e) => {
   userText += newLetter;
 
   const newLetterCorrect = validate(newLetter);
-  // console.log(newLetterCorrect);
+ console.log(newLetter);
  
 
   if (newLetterCorrect) {
