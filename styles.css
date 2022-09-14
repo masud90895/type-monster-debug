@@ -141,8 +141,15 @@ button {
   cursor: pointer;
 }
 
-#histories {
+/* #histories {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+} */
+#histories {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
   flex-wrap: wrap;
   justify-content: space-around;
 }
@@ -152,6 +159,7 @@ button {
   height: 100%;
   padding: 50px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 20px 30px;
@@ -189,4 +197,15 @@ button {
   .card {
     flex-direction: column;
   }
+}
+
+
+/*phone*/
+@media only screen and (max-width: 688px) {
+  #histories {  
+    grid-template-columns: repeat(1,1fr);
+    gap: 10px;
+    
+  }
+  
 }
