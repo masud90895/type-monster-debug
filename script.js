@@ -5,11 +5,20 @@ const countdownOverlay = document.getElementById("countdown");
 const resultModal = document.getElementById("result");
 const modalBackground = document.getElementById("modal-background");
 
+
+
+
+//  space click scroll fixt
+window.onkeydown = function(e) { 
+  return !(e.keyCode == 32);
+};
+
 // variables
 let userText = "";
 let errorCount = [];
 let startTime;
 let questionText = "";
+
 
 // Load and display question
 fetch("./texts.json")
@@ -41,7 +50,6 @@ const typeController = (e) => {
   userText += newLetter;
 
   const newLetterCorrect = validate(newLetter);
- console.log(newLetter);
  
 
   if (newLetterCorrect) {
@@ -55,6 +63,9 @@ const typeController = (e) => {
   if (questionText === userText) {
     gameOver();
   }
+
+
+  
 };
 
 const validate = (key) => {
@@ -72,6 +83,12 @@ const gameOver = () => {
   const finishTime = new Date().getTime();
   const timeTaken = parseInt((finishTime - startTime) / 1000);
 
+
+  // speedCount calculation 
+  const wordsArr = questionText.trim().split(" ")
+  const wordCount = wordsArr.filter(word => word !== "").length;
+  const speedCount = parseInt((wordCount / timeTaken) * 60);
+
   // show result modal
   resultModal.innerHTML = "";
   resultModal.classList.toggle("hidden");
@@ -85,12 +102,13 @@ const gameOver = () => {
     <h1>Finished!</h1>
     <p>You took: <span class="bold">${timeTaken}</span> seconds</p>
     <p>You made <span class="bold red">${errorCount.length}</span> mistakes</p>
+    <p>Your typing speed: <span class="bold speed">${speedCount}</span> wpm</p>
     <button onclick="closeModal()">Close</button>
   `;
   // console.log(errorCount.length);
   // console.log(resultModal);
 
-  addHistory(questionText, timeTaken, errorCount.length);
+  addHistory(questionText, timeTaken, errorCount.length, speedCount);
 
   // restart everything
   startTime = null;
@@ -110,12 +128,13 @@ const start = () => {
 
   let count = 3;
   countdownOverlay.style.display = "flex";
+  countdownOverlay.textContent='';
 
   const startCountdown = setInterval(() => {
     countdownOverlay.innerHTML = `<h1>${count}</h1>`;
 
     // finished timer
-    if (count === 0) {
+    if (count < 0) {
       // -------------- START TYPING -----------------
       document.addEventListener("keydown", typeController);
       countdownOverlay.style.display = "none";
